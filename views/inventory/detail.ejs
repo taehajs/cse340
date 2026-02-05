@@ -8,9 +8,20 @@
 </head>
 
 <body>
+  <nav>
+    <%- nav %> 
+  </nav>
+
+  
   <main>
-    <%= content %>
+    <h1><%= title %></h1>
+    <section>
+      <p>Make: <%= vehicle.inv_make %></p>
+      <p>Model: <%= vehicle.inv_model %></p>
+      <p>Year: <%= vehicle.inv_year %></p>
+      <p>Price: $<%= vehicle.inv_price %></p>
+      <p>Description: <%= vehicle.inv_description %></p>
+    </section>
   </main>
 </body>
-
 </html>
