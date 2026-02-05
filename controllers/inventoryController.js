@@ -1,6 +1,6 @@
-const invModel = require("../models/inventory-model");
-const classificationModel = require("../models/classification-model");
-const utilities = require("../utilities");
+const invModel = require("../../models/inventory-model");
+const classificationModel = require("../../models/classification-model");
+const utilities = require("../../utilities");
 
 
 async function buildByClassificationId(req, res, next) {
