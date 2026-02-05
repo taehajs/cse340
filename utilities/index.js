@@ -1,21 +1,26 @@
-function buildClassificationGrid(data) {
-  let grid = '<ul id="inv-display">';
-  data.forEach(vehicle => {
-    grid += `<li>
-      <a href="/inv/detail/${vehicle.inv_id}" 
-         title="View ${vehicle.make} ${vehicle.model}">
-        <img src="${vehicle.thumbnail}" 
-             alt="Image of ${vehicle.make} ${vehicle.model}">
-      </a>
-      <div class="namePrice">
-        <h2><a href="/inv/detail/${vehicle.inv_id}">
-          ${vehicle.make} ${vehicle.model}</a></h2>
-        <span>$${vehicle.price.toLocaleString()}</span>
-      </div>
-    </li>`;
+function buildVehicleDetail(vehicle) {
+  const price = vehicle.price.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
   });
-  grid += "</ul>";
-  return grid;
+  const mileage = vehicle.miles.toLocaleString("en-US");
+
+  return `
+    <section class="vehicle-detail">
+      <div class="vehicle-image">
+        <img src="${vehicle.image}" alt="Image of ${vehicle.make} ${vehicle.model}">
+      </div>
+
+
+      <div class="vehicle-info">
+        <h1>${vehicle.year} ${vehicle.make} ${vehicle.model}</h1>
+        <p><strong>Price:</strong> ${price}</p>
+        <p><strong>Mileage:</strong> ${mileage} miles</p>
+        <p><strong>Description:</strong> ${vehicle.description}</p>
+      </div>
+    </section>
+  `;
 }
 
-module.exports = { buildNav, buildClassificationGrid };
+
+module.exports = { buildVehicleDetail };

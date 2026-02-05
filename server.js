@@ -27,10 +27,32 @@ app.set("views", path.join(__dirname, "views"))
 app.use(express.static(path.join(__dirname, "public")))
 
 /***********************
- * Index Route
+ * Routes
  *************************/
+const inventoryRoutes = require("./routes/inventory")
+app.use("/inv", inventoryRoutes)
+
+// Index Route
 app.get("/", (req, res) => {
   res.render("index", { title: "Home" })
+})
+
+/***********************
+ * Error Handling Middleware
+ *************************/
+app.use((req, res, next) => {
+  const error = new Error("Not Found")
+  error.status = 404
+  next(error)
+})
+
+app.use((err, req, res, next) => {
+  res.status(err.status || 500)
+  res.render("error", {
+    title: "Error",
+    message: err.message || "Internal Server Error",
+    status: err.status || 500,
+  })
 })
 
 /***********************
