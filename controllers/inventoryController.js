@@ -18,7 +18,7 @@ async function showManagement(req, res, next) {
 }
 
 
-exports.showAddClassification = async function (req, res) {
+async function showAddClassification(req, res) {
   const classifications = await classificationModel.getClassifications()
   const nav = utilities.buildNav(classifications)
   res.render("inventory/add-classification", {
@@ -29,7 +29,7 @@ exports.showAddClassification = async function (req, res) {
 }
 
 
-exports.addClassification = async function (req, res) {
+async function addClassification(req, res) {
   const { classification_name } = req.body
   if (!classification_name || classification_name.length < 3) {
     req.session.message = "Invalid classification name"
@@ -41,7 +41,7 @@ exports.addClassification = async function (req, res) {
 }
 
 
-exports.showAddVehicle = async function (req, res) {
+async function showAddVehicle(req, res) {
   const classifications = await classificationModel.getClassifications()
   const nav = utilities.buildNav(classifications)
   res.render("inventory/add-vehicle", {
@@ -53,7 +53,7 @@ exports.showAddVehicle = async function (req, res) {
 }
 
 
-exports.addVehicle = async function (req, res) {
+async function addVehicle(req, res) {
   const { inv_make, inv_model, inv_year, inv_price, classification_id } = req.body
   if (!inv_make || !inv_model || !inv_year || !inv_price || !classification_id) {
     req.session.message = "All fields required"
@@ -129,7 +129,7 @@ async function buildById(req, res, next) {
     console.log("error in buildById", err)
     next(err)
   }
-  
+
 }
 
 function triggerError(req, res, next) {
