@@ -17,6 +17,7 @@ async function showManagement(req, res, next) {
   }
 }
 
+
 exports.showAddClassification = async function (req, res) {
   const classifications = await classificationModel.getClassifications()
   const nav = utilities.buildNav(classifications)
@@ -26,6 +27,7 @@ exports.showAddClassification = async function (req, res) {
     message: req.session.message
   })
 }
+
 
 exports.addClassification = async function (req, res) {
   const { classification_name } = req.body
@@ -38,6 +40,7 @@ exports.addClassification = async function (req, res) {
   res.redirect("/inventory/management")
 }
 
+
 exports.showAddVehicle = async function (req, res) {
   const classifications = await classificationModel.getClassifications()
   const nav = utilities.buildNav(classifications)
@@ -48,6 +51,7 @@ exports.showAddVehicle = async function (req, res) {
     data: req.body
   })
 }
+
 
 exports.addVehicle = async function (req, res) {
   const { inv_make, inv_model, inv_year, inv_price, classification_id } = req.body
@@ -66,6 +70,8 @@ exports.addVehicle = async function (req, res) {
   req.session.message = result ? "Vehicle added" : "Insert failed"
   res.redirect("/inventory/management")
 }
+
+
 
 async function buildByClassificationId(req, res, next) {
   try {
@@ -95,6 +101,9 @@ async function buildByClassificationId(req, res, next) {
   }
 }
 
+
+
+
 async function buildById(req, res, next) {
   try {
     const invId = req.params.invId
@@ -120,6 +129,7 @@ async function buildById(req, res, next) {
     console.log("error in buildById", err)
     next(err)
   }
+  
 }
 
 function triggerError(req, res, next) {
@@ -130,6 +140,9 @@ function triggerError(req, res, next) {
     next(err)
   }
 }
+
+
+
 
 module.exports = {
   showManagement,
