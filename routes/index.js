@@ -1,12 +1,14 @@
 const express = require("express")
 const router = express.Router()
-const invModel = require("../models/inventory-model")
-const classificationModel = require("../models/classification-model")
-const utilities = require("../utilities")
-const accountModel = require("../models/account-model")
-const jwt = require("jsonwebtoken")
-const { requireAuth, checkRole } = require("../middleware/authMiddleware")
 
+const invModel = require("../models/inventory-model")
+
+const classificationModel = require("../models/classification-model")
+
+const utilities = require("../utilities")
+
+
+const { requireAuth } = require("../middleware/authMiddleware")
 
 router.get("/", async (req, res, next) => {
   try {
@@ -19,6 +21,8 @@ router.get("/", async (req, res, next) => {
       classifications,
       inventory,
       user: req.user || null,
+
+
       message: req.session.message || null
     })
   } catch (err) {
