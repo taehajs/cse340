@@ -1,7 +1,9 @@
 <h1>Add Classification</h1>
-<form action="/inventory/add-classification" method="post">
-  <label for="classificationName">Classification Name:</label>
-  <input type="text" id="classificationName" name="classificationName" required>
-  <button type="submit">Submit</button>
+
+<form action="/inventory/add-classification" method="POST">
+  <label for="classification_name">Classification Name:</label>
+  <input type="text" id="classification_name" name="classification_name" required>
+  <button type="submit">Add Classification</button>
 </form>
-<p><%= message %></p>
+
+<p><%= message || "" %></p>

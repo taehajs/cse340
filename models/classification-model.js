@@ -1,18 +1,26 @@
-const pool = require("../database");
+const pool = require("../database/index");
 
 async function getClassifications() {
-  const result = await pool.query(
-    "SELECT * FROM classification ORDER BY classification_name"
-  );
-  return result.rows;
+  try {
+    const sql = "SELECT * FROM classification ORDER BY classification_name";
+    const data = await pool.query(sql);
+    return data.rows;
+  } catch (error) {
+    throw error;
+  }
 }
 
 async function insertClassification(name) {
-  const result = await pool.query(
-    "INSERT INTO classification (classification_name) VALUES ($1)",
-    [name]
-  );
-  return result.rowCount > 0;
+  try {
+    const sql = "INSERT INTO classification (classification_name) VALUES ($1)";
+    const data = await pool.query(sql, [name]);
+    return data.rowCount > 0;
+
+    
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
 }
 
 module.exports = { getClassifications, insertClassification };
