@@ -1,2 +1,30 @@
-<h1>Welcome to CSE Motors</h1>
-<p>Choose a vehicle type from the navigation menu .</p>
+<%- include("partials/header", { title: title, nav: nav }) %>
+
+<main>
+  <h1>Welcome to Our Inventory!</h1>
+
+  <% if (message) { %>
+    <p class="message"><%= message %></p>
+  <% } %>
+
+
+  
+  <section class="inventory-cards">
+    <% if (inventory.length > 0) { %>
+      <% inventory.forEach(vehicle => { %>
+
+        <div class="card">
+          <img src="<%= vehicle.image_path %>" alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+          <h3><%= vehicle.inv_make %> <%= vehicle.inv_model %></h3>
+          <p>Year: <%= vehicle.inv_year %></p>
+          <p>Price: $<%= vehicle.inv_price %></p>
+        </div>
+
+      <% }) %>
+    <% } else { %>
+      <p>No vehicles available right now.</p>
+    <% } %>
+  </section>
+</main>
+
+<%- include("partials/footer") %>
