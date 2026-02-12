@@ -1,3 +1,20 @@
-<h1><%= title %></h1>
+<%- include("../partials/header", { title: title, nav: nav, user: user || null }) %>
 
-<%= grid %>
+<main>
+  <h1><%= classificationName %> Vehicles</h1>
+
+  <% if (inventory && inventory.length > 0) { %>
+    <% inventory.forEach(vehicle => { %>
+      <div class="card">
+        <img src="<%= vehicle.image_path %>" alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+        <h3><%= vehicle.inv_make %> <%= vehicle.inv_model %></h3>
+        <p>Year: <%= vehicle.inv_year %></p>
+        <p>Price: $<%= vehicle.inv_price %></p>
+      </div>
+    <% }) %>
+  <% } else { %>
+    <p>No vehicles in this classification.</p>
+  <% } %>
+</main>
+
+<%- include("../partials/footer") %>
