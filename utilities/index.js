@@ -1,12 +1,13 @@
-const invModel = require("../models/inventory-model")
+const classificationModel = require("../models/classification-model")
+
 
 async function buildNav() {
-  const data = await invModel.getClassifications()
+  const data = await classificationModel.getClassifications()
 
   let list = "<ul>"
   list += '<li><a href="/" title="Home page">Home</a></li>'
 
-  data.rows.forEach((row) => {
+  data.forEach((row) => {
     list += `
       <li>
         <a href="/inv/type/${row.classification_id}" 
@@ -20,7 +21,6 @@ async function buildNav() {
   list += "</ul>"
   return list
 }
-
 
 
 function buildVehicleDetail(vehicle) {
@@ -47,6 +47,7 @@ function buildVehicleDetail(vehicle) {
     </section>
   `
 }
+
 
 module.exports = {
   buildNav,
