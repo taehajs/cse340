@@ -1,4 +1,4 @@
-const pool = require("../database/");
+const pool = require("../database");
 
 async function toggleFavorite(itemId, isFavorite) {
     const sql = `UPDATE items SET is_favorite = $1 WHERE item_id = $2`;
