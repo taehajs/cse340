@@ -21,7 +21,6 @@ async function buildNav() {
   return list
 }
 
-
 function buildVehicleDetail(vehicle) {
   const price = vehicle.inv_price.toLocaleString("en-US", {
     style: "currency",
@@ -47,10 +46,7 @@ function buildVehicleDetail(vehicle) {
   `
 }
 
-
-async function buildClassificationGrid() {
-  const data = await classificationModel.getClassifications()
-
+async function buildClassificationGrid(data) {
   let grid = '<ul class="classification-grid">'
   data.forEach((row) => {
     grid += `
