@@ -1,6 +1,5 @@
 const classificationModel = require("../models/classification-model")
 
-
 async function buildNav() {
   const data = await classificationModel.getClassifications()
 
@@ -11,8 +10,8 @@ async function buildNav() {
     list += `
       <li>
         <a href="/inv/type/${row.classification_id}" 
-        title="See our inventory of ${row.classification_name} vehicles">
-        ${row.classification_name}
+           title="See our inventory of ${row.classification_name} vehicles">
+           ${row.classification_name}
         </a>
       </li>
     `
@@ -49,7 +48,26 @@ function buildVehicleDetail(vehicle) {
 }
 
 
+async function buildClassificationGrid() {
+  const data = await classificationModel.getClassifications()
+
+  let grid = '<ul class="classification-grid">'
+  data.forEach((row) => {
+    grid += `
+      <li>
+        <a href="/inv/type/${row.classification_id}" 
+           title="See our inventory of ${row.classification_name} vehicles">
+           ${row.classification_name}
+        </a>
+      </li>
+    `
+  })
+  grid += "</ul>"
+  return grid
+}
+
 module.exports = {
   buildNav,
-  buildVehicleDetail
+  buildVehicleDetail,
+  buildClassificationGrid,
 }

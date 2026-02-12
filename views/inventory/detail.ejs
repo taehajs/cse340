@@ -1,27 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <title><%= title %></title>
-  <link rel="stylesheet" href="/css/styles.css">
-</head>
-
-<body>
+<main>
   <nav>
-    <%- nav %> 
+    <%- nav %>
   </nav>
 
-  
-  <main>
-    <h1><%= title %></h1>
-    <section>
-      <p>Make: <%= vehicle.inv_make %></p>
-      <p>Model: <%= vehicle.inv_model %></p>
-      <p>Year: <%= vehicle.inv_year %></p>
-      <p>Price: $<%= vehicle.inv_price %></p>
-      <p>Description: <%= vehicle.inv_description %></p>
-    </section>
-  </main>
-</body>
-</html>
+  <h1><%= vehicle?.inv_make || "-" %> <%= vehicle?.inv_model || "" %></h1>
+
+  <p>Year: <%= vehicle?.inv_year || "-" %></p>
+  <p>Price: $<%= vehicle?.inv_price?.toLocaleString() || "-" %></p>
+  <p>Description: <%= vehicle?.inv_description || "-" %></p>
+</main>
+
+

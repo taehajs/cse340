@@ -4,12 +4,13 @@ const utilities = require("../utilities")
 
 async function showManagement(req, res, next) {
   try {
-    const classifications = await classificationModel.getClassifications()
-    const nav = utilities.buildNav(classifications)
+    const nav = await utilities.buildNav()
+    const message = req.session.message
+    delete req.session.message
     res.render("inventory/management", {
       title: "Inventory Management",
       nav,
-      message: req.session.message
+      message
     })
   } catch (err) {
     console.log("error in showManagement", err)
@@ -17,17 +18,20 @@ async function showManagement(req, res, next) {
   }
 }
 
-
 async function showAddClassification(req, res) {
-  const classifications = await classificationModel.getClassifications()
-  const nav = utilities.buildNav(classifications)
-  res.render("inventory/add-classification", {
-    title: "Add Classification",
-    nav,
-    message: req.session.message
-  })
+  try {
+    const nav = await utilities.buildNav()
+    const message = req.session.message
+    delete req.session.message
+    res.render("inventory/add-classification", {
+      title: "Add Classification",
+      nav,
+      message
+    })
+  } catch (err) {
+    next(err)
+  }
 }
-
 
 async function addClassification(req, res) {
   const { classification_name } = req.body
@@ -35,30 +39,28 @@ async function addClassification(req, res) {
     req.session.message = "Invalid classification name"
     return res.redirect("/inventory/add-classification")
   }
-  const result = await classificationModel.insertClassification(classification_name)
+  const result = await invModel.insertClassification(classification_name)
   req.session.message = result ? "Classification added" : "Insert failed"
   res.redirect("/inventory/management")
 }
 
-
 async function showAddVehicle(req, res) {
-  const classifications = await classificationModel.getClassifications()
-  const nav = utilities.buildNav(classifications)
+  const nav = await utilities.buildNav()
+  const message = req.session.message
+  delete req.session.message
   res.render("inventory/add-vehicle", {
     title: "Add Vehicle",
     nav,
-    message: req.session.message,
+    message,
     data: req.body
   })
 }
-
 
 async function addVehicle(req, res) {
   const { inv_make, inv_model, inv_year, inv_price, classification_id } = req.body
   if (!inv_make || !inv_model || !inv_year || !inv_price || !classification_id) {
     req.session.message = "All fields required"
-    const classifications = await classificationModel.getClassifications()
-    const nav = utilities.buildNav(classifications)
+    const nav = await utilities.buildNav()
     return res.render("inventory/add-vehicle", {
       title: "Add Vehicle",
       nav,
@@ -71,17 +73,13 @@ async function addVehicle(req, res) {
   res.redirect("/inventory/management")
 }
 
-
-
 async function buildByClassificationId(req, res, next) {
   try {
-    const classificationId = req.params.classificationId
+    const classificationId = parseInt(req.params.classificationId)
     const data = await invModel.getInventoryByClassificationId(classificationId)
-    const classifications = await classificationModel.getClassifications()
-    const nav = utilities.buildNav(classifications)
+    const nav = await utilities.buildNav()
 
     if (!data || data.length === 0) {
-      console.log("no vehicles for this id:", classificationId)
       return res.render("inventory/classification", {
         title: "No vehicles",
         nav,
@@ -89,7 +87,7 @@ async function buildByClassificationId(req, res, next) {
       })
     }
 
-    const grid = utilities.buildClassificationGrid(data)
+    const grid = await utilities.buildClassificationGrid()
     res.render("inventory/classification", {
       title: data[0].classification_name + " cars",
       nav,
@@ -101,18 +99,13 @@ async function buildByClassificationId(req, res, next) {
   }
 }
 
-
-
-
 async function buildById(req, res, next) {
   try {
-    const invId = req.params.invId
+    const invId = parseInt(req.params.invId)
     const data = await invModel.getVehicleById(invId)
-    const classifications = await classificationModel.getClassifications()
-    const nav = utilities.buildNav(classifications)
+    const nav = await utilities.buildNav()
 
     if (!data) {
-      console.log("vehicle not found:", invId)
       return res.render("inventory/detail", {
         title: "Not found",
         nav,
@@ -129,7 +122,6 @@ async function buildById(req, res, next) {
     console.log("error in buildById", err)
     next(err)
   }
-
 }
 
 function triggerError(req, res, next) {
@@ -141,9 +133,6 @@ function triggerError(req, res, next) {
   }
 }
 
-
-
-
 module.exports = {
   showManagement,
   showAddClassification,
@@ -154,4 +143,3 @@ module.exports = {
   buildById,
   triggerError
 }
-

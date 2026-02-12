@@ -1,4 +1,5 @@
 const pool = require("../database")
+
 async function insertClassification(name) {
   try {
     const sql =
@@ -11,13 +12,7 @@ async function insertClassification(name) {
   }
 }
 
-async function insertVehicle(
-  make,
-  model,
-  year,
-  price,
-  classification_id
-) {
+async function insertVehicle(make, model, year, price, classification_id) {
   try {
     const sql = `
       INSERT INTO inventory

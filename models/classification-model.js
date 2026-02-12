@@ -1,4 +1,4 @@
-const pool = require("../database/index")
+const pool = require("../database")
 
 async function getClassifications() {
   try {
@@ -6,18 +6,11 @@ async function getClassifications() {
     const data = await pool.query(sql)
     return data.rows
   } catch (error) {
+    console.error("getClassifications error:", error)
     throw error
   }
 }
 
-async function getInventoryByClassificationId(classificationId) {
-  try {
-    const sql = "SELECT * FROM inventory WHERE classification_id = $1"
-    const data = await pool.query(sql, [classificationId])
-    return data.rows
-  } catch (error) {
-    throw error
-  }
-}
+module.exports = { getClassifications }
 
-module.exports = { getClassifications, getInventoryByClassificationId }
+

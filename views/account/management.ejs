@@ -1,11 +1,16 @@
-<h2>Welcome <%= locals.accountData.account_firstname %></h2>
+<main>
+  <nav> 
+    <%- nav %>
+  </nav>
 
-<% if (locals.accountData.account_type == 'Employee' || locals.accountData.account_type == 'Admin') { %>
-  <h3>Inventory Management</h3>
-  <a href="/inv">Go to Inventory</a>
+  <h1><%= title %></h1>
 
-<% } %>
+  <a href="/inventory/add-classification">Add Classification</a>
+  <a href="/inventory/add-vehicle">Add Vehicle</a>
 
-<a href="/account/update/<%= locals.accountData.account_id %>">Update Account Information</a>
+  <p><%= message || "" %></p>
 
-<a href="/account/logout">Logout</a>
+  <%- grid || "" %>
+</main>
+
+
