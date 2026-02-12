@@ -1,0 +1,11 @@
+<h2><%= item.name %></h2>
+<p><%= item.description %></p>
+
+<form action="/favorites/toggle" method="POST">
+  <input type="hidden" name="itemId" value="<%= item.item_id %>">
+  <input type="hidden" name="isFavorite" value="<%= !item.is_favorite %>">
+  <button type="submit">
+    
+    <%= item.is_favorite ? "Remove from Favorites" : "Add to Favorites" %>
+  </button> 
+</form>

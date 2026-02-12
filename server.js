@@ -11,12 +11,19 @@ app.set("layout", "./layouts/layout")
 app.set("views", path.join(__dirname, "views"))
 
 app.use(express.static(path.join(__dirname, "public")))
+app.use(express.urlencoded({ extended: true })) 
 
 const baseRoute = require("./routes/index")
 app.use("/", baseRoute)
 
+
 const inventoryRoutes = require("./routes/inventory")
 app.use("/inv", inventoryRoutes)
+
+
+const favoritesRoute = require("./routes/favoritesRoute")
+app.use("/favorites", favoritesRoute)
+
 
 app.use((req, res, next) => {
   const error = new Error("Not Found")

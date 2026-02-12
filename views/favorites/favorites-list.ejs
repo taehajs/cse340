@@ -1,0 +1,10 @@
+<h2>My Favorites</h2>
+
+<ul>
+  <% favorites.forEach(item => { %>
+    
+    <li>
+      <strong><%= item.name %></strong> - <%= item.description %>
+    </li>
+  <% }) %>
+</ul>
