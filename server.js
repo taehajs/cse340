@@ -1,48 +1,27 @@
-const express = require("express")
-const expressLayouts = require("express-ejs-layouts")
-require("dotenv").config()
-const path = require("path")
+const express = require("express");
+const session = require("express-session");
+const inventoryRoutes = require("./routes/inventory");
 
-const app = express()
+const app = express();
 
-app.set("view engine", "ejs")
-app.use(expressLayouts)
-app.set("layout", "./layouts/layout") 
-app.set("views", path.join(__dirname, "views"))
+app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, "public")))
-app.use(express.urlencoded({ extended: true })) 
+app.use(session({
+  secret: process.env.SESSION_SECRET || "keyboard cat",
+  resave: false,
+  saveUninitialized: true
+}));
 
-const baseRoute = require("./routes/index")
-app.use("/", baseRoute)
+app.set("view engine", "ejs");
+app.set("views", "./views");
 
-
-const inventoryRoutes = require("./routes/inventory")
-app.use("/inv", inventoryRoutes)
-
-
-const favoritesRoute = require("./routes/favoritesRoute")
-app.use("/favorites", favoritesRoute)
-
-
-app.use((req, res, next) => {
-  const error = new Error("Not Found")
-  error.status = 404
-  next(error)
-})
+app.use(inventoryRoutes);
 
 app.use((err, req, res, next) => {
-  res.status(err.status || 500)
-  res.render("error", {
-    title: "Error",
-    message: err.message || "Internal Server Error",
-    status: err.status || 500,
-  })
-})
+  console.error(err);
+  res.status(500).render("errors/500", { error: err });
+});
 
-const port = process.env.PORT || 3000
-const host = process.env.HOST || "localhost"
-
-app.listen(port, () => {
-  console.log(`app listening on ${host}:${port}`)
-})
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
