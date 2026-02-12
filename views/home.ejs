@@ -1,4 +1,4 @@
-<%- include("partials/header", { title: title, nav: nav }) %>
+<%- include("partials/header", { title, nav, user }) %>
 
 <main>
   <h1>Welcome to Our Inventory!</h1>
@@ -7,19 +7,22 @@
     <p class="message"><%= message %></p>
   <% } %>
 
-
-  
   <section class="inventory-cards">
     <% if (inventory.length > 0) { %>
       <% inventory.forEach(vehicle => { %>
-
         <div class="card">
           <img src="<%= vehicle.image_path %>" alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
           <h3><%= vehicle.inv_make %> <%= vehicle.inv_model %></h3>
           <p>Year: <%= vehicle.inv_year %></p>
           <p>Price: $<%= vehicle.inv_price %></p>
-        </div>
 
+          <% if (user && (user.role === "Admin" || user.role === "Employee")) { %>
+            <a href="/inventory/edit/<%= vehicle.inv_id %>">Edit</a>
+            <form action="/inventory/delete/<%= vehicle.inv_id %>" method="post" style="display:inline;">
+              <button type="submit">Delete</button>
+            </form>
+          <% } %>
+        </div>
       <% }) %>
     <% } else { %>
       <p>No vehicles available right now.</p>
@@ -28,3 +31,5 @@
 </main>
 
 <%- include("partials/footer") %>
+
+

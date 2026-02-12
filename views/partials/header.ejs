@@ -1,6 +1,14 @@
-<header class="site-header">
-  <div class="brand">
-    <img src="/images/site/icon.png" alt="CSE Motors logo" class="brand__logo">
-    <span class="brand__name">CSE Motors</span>
-  </div>
+<header>
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <% if (user) { %>
+        <li><a href="/account/profile">My Account</a></li>
+        <li><a href="/account/logout">Logout</a></li>
+      <% } else { %>
+        <li><a href="/account/login">Login</a></li>
+        <li><a href="/account/register">Register</a></li>
+      <% } %>
+    </ul>
+  </nav>
 </header>
