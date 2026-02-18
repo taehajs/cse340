@@ -2,6 +2,7 @@
   <nav>
     <ul>
       <li><a href="/">Home</a></li>
+
       <% if (user) { %>
         <li><a href="/account/profile">My Account</a></li>
         <li><a href="/account/logout">Logout</a></li>
@@ -9,6 +10,11 @@
         <li><a href="/account/login">Login</a></li>
         <li><a href="/account/register">Register</a></li>
       <% } %>
+
+
+
+      
+      <li><a href="/error">Trigger 500 error</a></li>
     </ul>
   </nav>
 </header>
