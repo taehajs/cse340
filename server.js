@@ -11,17 +11,16 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-
 const baseRoute = require("./routes/index");
 const inventoryRoute = require("./routes/inventory");
 const errorRoute = require("./routes/errorRoute");
 
 
-app.use("/", baseRoute);     
+app.use("/", baseRoute);
 app.use("/inv", inventoryRoute);
-app.use("/error", errorRoute); 
+app.use("/error", errorRoute);
 
-// 404 
+// 404
 app.use((req, res, next) => {
   const error = new Error("Not Found");
   error.status = 404;
