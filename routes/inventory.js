@@ -1,12 +1,13 @@
 const express = require("express")
 const router = express.Router()
-const inventoryController = require("../controllers/inventoryController")
-const classificationController = require("../controllers/classificationController")
+const { checkAuth, checkAdmin } = require("../middleware/auth")
 
-router.get("/add-classification", classificationController.buildClassificationForm)
-router.post("/add-classification", classificationController.addClassification)
+router.get("/management", checkAuth, checkAdmin, (req, res) => {
+  res.render("inventory/management")
+})
 
-router.get("/add-vehicle", inventoryController.buildAddVehicleForm)
-router.post("/add-vehicle", inventoryController.addVehicle)
+router.get("/add-vehicle", checkAuth, checkAdmin, (req, res) => {
+  res.render("inventory/add-vehicle")
+})
 
 module.exports = router

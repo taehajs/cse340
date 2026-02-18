@@ -1,50 +1,42 @@
+require("dotenv").config()
 const express = require("express")
 const path = require("path")
-const app = express()
-const session = require("express-session")
+const cookieParser = require("cookie-parser")
 const flash = require("express-flash")
-const pool = require("./database")
+const session = require("express-session")
+
+const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
 app.use(express.static(path.join(__dirname, "public")))
 
 app.use(
   session({
-    secret: "someSecretString",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 60000 }
+    cookie: { secure: false },
   })
 )
+
 app.use(flash())
 
 app.set("view engine", "ejs")
 app.set("views", path.join(__dirname, "views"))
 
-const baseRoute = require("./routes/index")
-const inventoryRoute = require("./routes/inventory")
-const errorRoute = require("./routes/errorRoute")
-
-app.use("/", baseRoute)
-app.use("/inv", inventoryRoute)
-app.use("/error", errorRoute)
+app.use("/", require("./routes/auth"))
+app.use("/", require("./routes/base"))
+app.use("/inv", require("./routes/inventory"))
 
 app.use((req, res, next) => {
-  const error = new Error("Not Found")
-  error.status = 404
-  next(error)
+  res.status(404).render("error", { message: "Not Found" })
 })
 
 app.use((err, req, res, next) => {
-  res.status(err.status || 500)
-  res.render("error", {
-    title: "Error",
-    message: err.message || "Internal Server Error"
-  })
+  res.status(500).render("error", { message: err.message })
 })
 
 const PORT = process.env.PORT || 3000
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+app.listen(PORT, () => console.log(`Server listening on ${PORT}`))

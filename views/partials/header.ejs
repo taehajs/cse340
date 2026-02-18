@@ -1,20 +1,13 @@
-<header>
-  <nav>
-    <ul>
-      <li><a href="/">Home</a></li>
+<nav>
+  <% if (locals.user) { %>
+    Welcome, <%= user.email %> |
+    <a href="/logout">Logout</a>
 
-      <% if (user) { %>
-        <li><a href="/account/profile">My Account</a></li>
-        <li><a href="/account/logout">Logout</a></li>
-      <% } else { %>
-        <li><a href="/account/login">Login</a></li>
-        <li><a href="/account/register">Register</a></li>
-      <% } %>
-
-
-
-      
-      <li><a href="/error">Trigger 500 error</a></li>
-    </ul>
-  </nav>
-</header>
+    
+    <% if (user.role === "Employee" || user.role === "Admin") { %>
+      | <a href="/inv/management">Inventory</a>
+    <% } %>
+  <% } else { %>
+    <a href="/login">Login</a> | <a href="/register">Register</a>
+  <% } %>
+</nav>
