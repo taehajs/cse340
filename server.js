@@ -4,23 +4,24 @@ const app = express();
 const session = require("express-session");
 const pool = require("./database");
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
-
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 
+const baseRoute = require("./routes/index");
 const inventoryRoute = require("./routes/inventory");
 const errorRoute = require("./routes/errorRoute");
 
-app.use("/inv", inventoryRoute);
-app.use("/", errorRoute);
 
-// 404
+app.use("/", baseRoute);     
+app.use("/inv", inventoryRoute);
+app.use("/error", errorRoute); 
+
+// 404 
 app.use((req, res, next) => {
   const error = new Error("Not Found");
   error.status = 404;
@@ -35,7 +36,6 @@ app.use((err, req, res, next) => {
     message: err.message || "Internal Server Error"
   });
 });
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
