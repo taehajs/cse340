@@ -1,12 +1,13 @@
 <nav>
-  <% if (locals.user) { %>
+  <% if (user) { %>
     Welcome, <%= user.email %> |
     <a href="/logout">Logout</a>
-
     
     <% if (user.role === "Employee" || user.role === "Admin") { %>
+
       | <a href="/inv/management">Inventory</a>
     <% } %>
+
   <% } else { %>
     <a href="/login">Login</a> | <a href="/register">Register</a>
   <% } %>

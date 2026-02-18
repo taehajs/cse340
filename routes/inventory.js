@@ -1,13 +1,15 @@
 const express = require("express")
 const router = express.Router()
-const { checkAuth, checkAdmin } = require("../middleware/auth")
+const { requireAuth, checkRole } = require("../middleware/authMiddleware")
 
-router.get("/management", checkAuth, checkAdmin, (req, res) => {
-  res.render("inventory/management")
+router.get("/management", requireAuth, checkRole("Admin"), (req, res) => {
+  res.render("inventory/management", { user: req.user })
 })
 
-router.get("/add-vehicle", checkAuth, checkAdmin, (req, res) => {
-  res.render("inventory/add-vehicle")
+router.get("/add-vehicle", requireAuth, checkRole("Employee", "Admin"), (req, res) => {
+    
+  res.render("inventory/add-vehicle", { user: req.user })
+
 })
 
 module.exports = router
