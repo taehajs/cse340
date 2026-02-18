@@ -12,7 +12,6 @@ exports.insertVehicle = async (make, model, year, price, classification_id) => {
   } catch (error) {
     
     console.error(error)
-
     return false
   }
 }
@@ -25,7 +24,6 @@ exports.getVehiclesByMaxPrice = async (maxPrice) => {
       WHERE inv_price <= $1
       ORDER BY inv_price
     `
-
     const data = await pool.query(sql, [maxPrice])
     return data.rows
   } catch (error) {

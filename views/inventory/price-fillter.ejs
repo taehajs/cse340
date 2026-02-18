@@ -3,15 +3,12 @@
 <form method="get" action="/inv/filter-price">
   <label for="maxPrice">Maximum Price:</label>
   <input type="number" id="maxPrice" name="maxPrice" required>
-
   <button type="submit">Search</button>
 </form>
 
 <% if (message) { %>
   <p><%= message %></p>
-
 <% } %>
-
 
 <% if (vehicles.length) { %>
   <table>
@@ -21,21 +18,16 @@
         <th>Model</th>
         <th>Year</th>
         <th>Price</th>
-
       </tr>
-
     </thead>
-
     <tbody>
       <% vehicles.forEach(vehicle => { %>
         <tr>
           <td><%= vehicle.inv_make %></td>
           <td><%= vehicle.inv_model %></td>
-          
           <td><%= vehicle.inv_year %></td>
           <td><%= vehicle.inv_price %></td>
         </tr>
-
       <% }) %>
     </tbody>
   </table>

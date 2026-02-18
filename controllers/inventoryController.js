@@ -2,7 +2,6 @@ const inventoryModel = require("../models/inventory-model")
 const classificationModel = require("../models/classification-model")
 const utilities = require("../utilities")
 
-
 exports.buildAddVehicleForm = async (req, res, next) => {
   try {
     const classifications = await classificationModel.getClassifications()
@@ -16,7 +15,6 @@ exports.buildAddVehicleForm = async (req, res, next) => {
     next(error)
   }
 }
-
 
 
 exports.addVehicle = async (req, res, next) => {
@@ -46,6 +44,7 @@ exports.addVehicle = async (req, res, next) => {
   } catch (error) {
     next(error)
   }
+
 }
 
 
@@ -55,7 +54,6 @@ exports.showPriceFilter = async (req, res, next) => {
     if (!maxPrice || isNaN(maxPrice)) {
       return res.render("inventory/price-filter", { vehicles: [], message: "Please enter a valid number" })
     }
-
 
     const vehicles = await inventoryModel.getVehiclesByMaxPrice(maxPrice)
     res.render("inventory/price-filter", {
