@@ -2,11 +2,12 @@ const classificationModel = require("../models/classification-model");
 
 async function buildNav() {
   const data = await classificationModel.getClassifications();
-  let list = "<ul>";
 
+  let list = "<ul>";
   list += '<li><a href="/" title="Home page">Home</a></li>';
 
-  data.rows.forEach((row) => {
+
+  data.forEach((row) => {
     list += `<li>
       <a href="/inv/type/${row.classification_id}" 
          title="See our inventory of ${row.classification_name} vehicles">
@@ -56,7 +57,6 @@ async function buildClassificationGrid(vehicleData) {
          title="View details of ${vehicle.inv_make} ${vehicle.inv_model}">
          ${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}
       </a>
-      
     </li>`;
   });
 
