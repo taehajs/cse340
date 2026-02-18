@@ -23,7 +23,7 @@ app.use(
   session({
     secret: process.env.SESSION_SECRET || "devSecret",
     resave: false,
-    
+
     saveUninitialized: true,
     cookie: { secure: false }, 
   })
@@ -51,10 +51,10 @@ app.use((req, res) => {
   res.status(404).render("error", {
     title: "404 Not Found",
     message: "Page not found",
-    user: req.user 
+    user: req.user   
+    
   })
 })
-
 
 app.use((err, req, res, next) => {
   console.error(err)
