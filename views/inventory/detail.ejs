@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include("../partials/header", { title, nav }) %>
 
-<head>
-  <meta charset="UTF-8">
-  <title><%= title %></title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/styles.css">
-</head>
+<main>
+  <%- content %>
+</main>
 
-<body>
-  <main>
-    <%= content %>
-  </main>
-</body>
-</html>
+<%- include("../partials/footer") %>

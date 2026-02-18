@@ -5,14 +5,21 @@
 
   <section class="inventory-cards">
     <% if (inventory && inventory.length > 0) { %>
+
       <% inventory.forEach(vehicle => { %>
-        <div class="card">
-          <img src="<%= vehicle.image_path %>" alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
-          <h3><%= vehicle.inv_make %> <%= vehicle.inv_model %></h3>
-          <p>Year: <%= vehicle.inv_year %></p>
-          <p>Price: $<%= vehicle.inv_price %></p>
-        </div>
+
+        <a href="/inv/detail/<%= vehicle.inv_id %>" class="vehicle-link">
+          <div class="card">
+            <img src="<%= vehicle.image_path %>" 
+                 alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+            <h3><%= vehicle.inv_make %> <%= vehicle.inv_model %></h3>
+            <p>Year: <%= vehicle.inv_year %></p>
+            <p>Price: $<%= vehicle.inv_price %></p>
+          </div>
+        </a>
+
       <% }) %>
+
     <% } else { %>
       <p>No vehicles in this classification.</p>
     <% } %>
