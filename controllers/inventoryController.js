@@ -1,23 +1,38 @@
-const invModel = require("../models/inventory-model");
-const utilities = require("../utilities");
+const pool = require("../database");
 
+
+async function buildByClassification(req, res, next) {
+  try {
+    const classificationId = req.params.classificationId;
+
+    const result = await pool.query(
+      "SELECT * FROM inventory WHERE classification_id = $1",
+      [classificationId]
+    );
+
+    res.render("inventory/classification", {
+      title: "Vehicle List",
+      inventory: result.rows
+    });
+
+  } catch (error) {
+    next(error);
+  }
+}
+
+//detalis 
 async function getVehicleDetail(req, res, next) {
   try {
-    const invId = parseInt(req.params.invId);
+    const invId = req.params.invId;
 
-    const vehicle = await invModel.getVehicleById(invId);
-
-    if (!vehicle) {
-      return next({ status: 404, message: "Vehicle not found" });
-    }
-
-    const nav = await utilities.buildNav();
-    const html = utilities.buildVehicleDetail(vehicle);
+    const result = await pool.query(
+      "SELECT * FROM inventory WHERE inv_id = $1",
+      [invId]
+    );
 
     res.render("inventory/detail", {
-      title: `${vehicle.inv_make} ${vehicle.inv_model}`,
-      nav,
-      content: html
+      title: "Vehicle Detail",
+      vehicle: result.rows[0]
     });
 
   } catch (error) {
