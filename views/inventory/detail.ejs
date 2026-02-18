@@ -9,8 +9,9 @@
 
     <h1><%= vehicle.inv_make %> <%= vehicle.inv_model %></h1>
 
-    <img src="<%= vehicle.image_path %>" 
-         alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+    <img src="/images/vehicles/<%= vehicle.inv_image %>" 
+         alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>"
+         style="max-width: 100%; height: auto;">
 
     <ul>
       <li><strong>Year:</strong> <%= vehicle.inv_year %></li>
