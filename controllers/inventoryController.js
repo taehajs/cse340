@@ -12,7 +12,9 @@ async function buildByClassification(req, res, next) {
 
     res.render("inventory/classification", {
       title: "Vehicle List",
-      inventory: result.rows
+      inventory: result.rows,
+      nav: null,
+      user: null
     });
 
   } catch (error) {
@@ -20,7 +22,8 @@ async function buildByClassification(req, res, next) {
   }
 }
 
-//detalis 
+
+
 async function getVehicleDetail(req, res, next) {
   try {
     const invId = req.params.invId;
@@ -32,13 +35,16 @@ async function getVehicleDetail(req, res, next) {
 
     res.render("inventory/detail", {
       title: "Vehicle Detail",
-      vehicle: result.rows[0]
+      vehicle: result.rows[0],
+      nav: null,
+      user: null
     });
 
   } catch (error) {
     next(error);
   }
 }
+
 
 module.exports = {
   buildByClassification,
