@@ -14,7 +14,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 
-const inventoryRoute = require("./routes/inventoryRoute");
+const inventoryRoute = require("./routes/inventory");
 const errorRoute = require("./routes/errorRoute");
 
 app.use("/inv", inventoryRoute);
