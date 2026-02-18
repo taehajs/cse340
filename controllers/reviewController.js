@@ -1,32 +1,40 @@
-const reviewModel = require("../models/reviewModel")
+const reviewModel = require('../models/reviewModel')
 
-async function showVehicleReviews(req, res) {
+exports.showReviews = async (req, res) => {
+  const inv_id = parseInt(req.params.inv_id, 10)
 
-  const vehicle_id = req.params.vehicleId
-  try {
-
-
-    const reviews = await reviewModel.getReviewsByVehicle(vehicle_id)
-    res.render("reviews/list", { vehicle_id, reviews, user: req.user })
-  } catch (err) {
-
-    res.status(500).render("error", { title: "Error", message: err.message })
+  if (isNaN(inv_id)) {
+    return res.status(400).render("error", { title: "Error", message: "Invalid vehicle ID" })
   }
-}
-
-async function submitReview(req, res) {
-  const vehicle_id = req.params.vehicleId
-  
-  const user_id = req.user.id
-  const { rating, comment } = req.body
 
   try {
 
-    await reviewModel.addReview(vehicle_id, user_id, rating, comment)
-    res.redirect(`/reviews/${vehicle_id}`)
+    const reviews = await reviewModel.getReviewsByVehicle(inv_id)
+    res.render('reviews/index', { title: "Vehicle Reviews", reviews, inv_id })
   } catch (err) {
-    res.status(500).render("error", { title: "Error", message: err.message })
+    console.error(err)
+
+    res.status(500).render('error', { title: "Error", message: "Internal Server Error" })
   }
 }
 
-module.exports = { showVehicleReviews, submitReview }
+exports.submitReview = async (req, res) => {
+  const inv_id = parseInt(req.params.inv_id, 10)
+
+  const review_author = req.user ? req.user.user_firstname : "Guest"
+
+  const review_text = req.body.review_text
+
+  if (!review_text || review_text.trim() === "") {
+    return res.redirect(`/reviews/${inv_id}`)
+  }
+
+  try {
+    await reviewModel.addReview(inv_id, review_author, review_text)
+    
+    res.redirect(`/reviews/${inv_id}`)
+  } catch (err) {
+    console.error(err)
+    res.status(500).render('error', { title: "Error", message: "Internal Server Error" })
+  }
+}

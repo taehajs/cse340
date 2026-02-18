@@ -1,35 +1,35 @@
-const pool = require("../database")
+const pool = require('../database')
 
-async function addReview(vehicle_id, user_id, rating, comment) {
+async function getReviewsByVehicle(inv_id) {
   try {
+
     const sql = `
-      INSERT INTO reviews (vehicle_id, user_id, rating, comment)
-      VALUES ($1, $2, $3, $4)
-      RETURNING *`
-    const result = await pool.query(sql, [vehicle_id, user_id, rating, comment])
-    return result.rows[0]
-
-  } catch (err) {
-    throw err
-
-  }
-  
-}
-
-async function getReviewsByVehicle(vehicle_id) {
-  try {
-    const sql = `
-      SELECT r.*, u.user_firstname, u.user_lastname
-      FROM reviews r
-      JOIN users u ON r.user_id = u.user_id
-      WHERE r.vehicle_id = $1
-      ORDER BY r.created_at DESC`
-
-    const result = await pool.query(sql, [vehicle_id])
+      SELECT * 
+      FROM reviews 
+      WHERE inv_id = $1 
+      ORDER BY review_date DESC
+    `
+    const result = await pool.query(sql, [inv_id])
     return result.rows
+
   } catch (err) {
     throw err
   }
 }
 
-module.exports = { addReview, getReviewsByVehicle }
+async function addReview(inv_id, review_author, review_text) {
+  try {
+    
+    const sql = `
+      INSERT INTO reviews (inv_id, review_author, review_text, review_date)
+      VALUES ($1, $2, $3, NOW())
+      RETURNING *
+    `
+    const result = await pool.query(sql, [inv_id, review_author, review_text])
+    return result.rows[0]
+  } catch (err) {
+    throw err
+  }
+}
+
+module.exports = { getReviewsByVehicle, addReview }
