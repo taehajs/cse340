@@ -1,8 +1,14 @@
-const express = require("express");
-const router = new express.Router();
-const invController = require("../controllers/inventoryController");
+const express = require("express")
+const router = express.Router()
+const inventoryController = require("../controllers/inventoryController")
+const classificationController = require("../controllers/classificationController")
 
-router.get("/type/:classificationId", invController.buildByClassification);
-router.get("/detail/:invId", invController.getVehicleDetail);
 
-module.exports = router;
+router.get("/add-classification", classificationController.buildClassificationForm)
+router.post("/add-classification", classificationController.addClassification)
+
+
+router.get("/add-vehicle", inventoryController.buildAddVehicleForm)
+router.post("/add-vehicle", inventoryController.addVehicle)
+
+module.exports = router

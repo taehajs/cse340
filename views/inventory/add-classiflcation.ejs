@@ -1,9 +1,11 @@
 <h1>Add Classification</h1>
 
-<form action="/inventory/add-classification" method="POST">
+<% if (message) { %>
+  <p><%= message %></p>
+<% } %>
+
+<form action="/inventory/add-classification" method="post">
   <label for="classification_name">Classification Name:</label>
   <input type="text" id="classification_name" name="classification_name" required>
   <button type="submit">Add Classification</button>
 </form>
-
-<p><%= message || "" %></p>

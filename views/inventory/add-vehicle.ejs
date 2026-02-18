@@ -1,35 +1,28 @@
 <h1>Add Vehicle</h1>
 
-<form action="/inventory/add-vehicle" method="POST">
+<% if (message) { %>
+  <p><%= message %></p>
+<% } %>
+
+<form action="/inventory/add-vehicle" method="post">
   <label for="inv_make">Make:</label>
-  <input type="text" id="inv_make" name="inv_make" value="<%= data.inv_make || '' %>" required>
+  <input type="text" id="inv_make" name="inv_make" required>
 
   <label for="inv_model">Model:</label>
-  <input type="text" id="inv_model" name="inv_model" value="<%= data.inv_model || '' %>" required>
+  <input type="text" id="inv_model" name="inv_model" required>
 
   <label for="inv_year">Year:</label>
-  <input type="number" id="inv_year" name="inv_year" value="<%= data.inv_year || '' %>" required>
+  <input type="number" id="inv_year" name="inv_year" required>
 
   <label for="inv_price">Price:</label>
-  <input type="number" id="inv_price" name="inv_price" step="0.01" value="<%= data.inv_price || '' %>" required>
-
-
+  <input type="number" id="inv_price" name="inv_price" required>
 
   <label for="classification_id">Classification:</label>
-  <select id="classification_id" name="classification_id" required>
-    <% const classificationModel = require('../../models/classification-model'); 
-       const classifications = await classificationModel.getClassifications(); 
-       classifications.forEach(c => { %>
-
-      <option value="<%= c.classification_id %>" <%= data.classification_id==c.classification_id ? 'selected' : '' %> >
-        <%= c.classification_name %>
-
-      </option>
-    <% }); %>
+  <select name="classification_id" id="classification_id" required>
+    <% classifications.forEach(c => { %>
+      <option value="<%= c.classification_id %>"><%= c.classification_name %></option>
+    <% }) %>
   </select>
 
   <button type="submit">Add Vehicle</button>
 </form>
-
-
-<p><%= message || "" %></p>

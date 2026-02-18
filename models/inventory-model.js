@@ -1,17 +1,15 @@
-const pool = require("../database");
+const pool = require("../database/index")
 
-async function getVehicleById(invId) {
+exports.insertVehicle = async (make, model, year, price, classification_id) => {
   try {
-    const result = await pool.query(
-      "SELECT * FROM inventory WHERE inv_id = $1",
-      [invId]
-    );
-    return result.rows[0];
+    const sql = `
+      INSERT INTO inventory (inv_make, inv_model, inv_year, inv_price, classification_id)
+      VALUES ($1, $2, $3, $4, $5)
+    `
+    const result = await pool.query(sql, [make, model, year, price, classification_id])
+    return result.rowCount > 0
   } catch (error) {
-    throw error;
+    console.error(error)
+    return false
   }
 }
-
-module.exports = {
-  getVehicleById
-};

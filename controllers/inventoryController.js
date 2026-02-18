@@ -1,52 +1,41 @@
-const pool = require("../database");
+const inventoryModel = require("../models/inventory-model")
+const classificationModel = require("../models/classification-model")
+const utilities = require("../utilities")
 
 
-async function buildByClassification(req, res, next) {
+exports.buildAddVehicleForm = async (req, res, next) => {
   try {
-    const classificationId = req.params.classificationId;
-
-    const result = await pool.query(
-      "SELECT * FROM inventory WHERE classification_id = $1",
-      [classificationId]
-    );
-
-    res.render("inventory/classification", {
-      title: "Vehicle List",
-      inventory: result.rows,
-      nav: null,
-      user: null
-    });
-
+    const classifications = await classificationModel.getClassifications()
+    res.render("inventory/add-vehicle", {
+      title: "Add Vehicle",
+      nav: utilities.getNav(),
+      classifications,
+      message: req.flash("message"),
+    })
   } catch (error) {
-    next(error);
+    next(error)
   }
 }
 
-
-
-async function getVehicleDetail(req, res, next) {
+exports.addVehicle = async (req, res, next) => {
   try {
-    const invId = req.params.invId;
+    const { inv_make, inv_model, inv_year, inv_price, classification_id } = req.body
 
-    const result = await pool.query(
-      "SELECT * FROM inventory WHERE inv_id = $1",
-      [invId]
-    );
+    if (!inv_make || !inv_model || !inv_year || !inv_price || !classification_id) {
+      req.flash("message", "Please provide all fields")
+      return res.redirect("/inventory/add-vehicle")
+    }
 
-    res.render("inventory/detail", {
-      title: "Vehicle Detail",
-      vehicle: result.rows[0],
-      nav: null,
-      user: null
-    });
+    const result = await inventoryModel.insertVehicle(inv_make, inv_model, inv_year, inv_price, classification_id)
 
+    if (result) {
+      req.flash("message", `${inv_make} ${inv_model} added successfully!`)
+      res.redirect("/inventory/management")
+    } else {
+      req.flash("message", "Failed to add vehicle")
+      res.redirect("/inventory/add-vehicle")
+    }
   } catch (error) {
-    next(error);
+    next(error)
   }
 }
-
-
-module.exports = {
-  buildByClassification,
-  getVehicleDetail
-};
