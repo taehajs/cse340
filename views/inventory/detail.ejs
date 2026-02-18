@@ -1,7 +1,28 @@
-<%- include("../partials/header", { title, nav }) %>
+<%- include("../partials/header", { 
+  title: title, 
+  nav: typeof nav !== 'undefined' ? nav : null, 
+  user: typeof user !== 'undefined' ? user : null 
+}) %>
 
 <main>
-  <%- content %>
+  <% if (vehicle) { %>
+
+    <h1><%= vehicle.inv_make %> <%= vehicle.inv_model %></h1>
+
+    <img src="<%= vehicle.image_path %>" 
+         alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+
+    <ul>
+      <li><strong>Year:</strong> <%= vehicle.inv_year %></li>
+      <li><strong>Price:</strong> $<%= vehicle.inv_price %></li>
+      <li><strong>Description:</strong> <%= vehicle.inv_description %></li>
+      <li><strong>Miles:</strong> <%= vehicle.inv_miles %></li>
+      <li><strong>Color:</strong> <%= vehicle.inv_color %></li>
+    </ul>
+
+  <% } else { %>
+    <p>Vehicle not found.</p>
+  <% } %>
 </main>
 
 <%- include("../partials/footer") %>

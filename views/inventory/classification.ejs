@@ -1,4 +1,8 @@
-<%- include("../partials/header", { title, nav, user: user || null }) %>
+<%- include("../partials/header", { 
+  title: title, 
+  nav: typeof nav !== 'undefined' ? nav : null, 
+  user: typeof user !== 'undefined' ? user : null 
+}) %>
 
 <main>
   <h1><%= title %> Vehicles</h1>
